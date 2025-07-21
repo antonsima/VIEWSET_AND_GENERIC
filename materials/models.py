@@ -24,3 +24,7 @@ class Lesson(models.Model):
 
     def __str__(self):
         return f'{self.name} - {self.course}'
+
+    class Meta:
+        verbose_name = 'Урок'
+        verbose_name_plural = 'Уроки'
