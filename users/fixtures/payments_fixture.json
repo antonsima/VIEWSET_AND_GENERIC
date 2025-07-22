@@ -1,0 +1,84 @@
+[
+  {
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$N4vGzJX6Y7Q2b3R9$XrZ8w9cV1bL2mN3oP4qR5sT6uV7wX8yZ9=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user1",
+      "first_name": "Иван",
+      "last_name": "Иванов",
+      "email": "ivan@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2024-01-01T00:00:00Z",
+      "avatar": "",
+      "phone_number": "+79991234567",
+      "city": "Москва"
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$N4vGzJX6Y7Q2b3R9$XrZ8w9cV1bL2mN3oP4qR5sT6uV7wX8yZ9=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user2",
+      "first_name": "Петр",
+      "last_name": "Петров",
+      "email": "petr@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2024-01-01T00:00:00Z",
+      "avatar": "",
+      "phone_number": "+79997654321",
+      "city": "Санкт-Петербург"
+    }
+  },
+  {
+    "model": "materials.course",
+    "pk": 1,
+    "fields": {
+      "name": "Python для начинающих",
+      "preview_image": "",
+      "description": "Базовый курс по программированию на Python"
+    }
+  },
+  {
+    "model": "materials.lesson",
+    "pk": 1,
+    "fields": {
+      "name": "Введение в Python",
+      "description": "Основные понятия и синтаксис Python",
+      "preview_image": "",
+      "video_url": "https://example.com/video1",
+      "course": 1
+    }
+  },
+  {
+    "model": "users.payments",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "date": "2024-01-01T12:00:00Z",
+      "course": 1,
+      "lesson": null,
+      "amount": "5000.00",
+      "payment_method": "card"
+    }
+  },
+  {
+    "model": "users.payments",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "date": "2024-01-02T13:30:00Z",
+      "course": null,
+      "lesson": 1,
+      "amount": "2000.00",
+      "payment_method": "transfer"
+    }
+  }
+]
