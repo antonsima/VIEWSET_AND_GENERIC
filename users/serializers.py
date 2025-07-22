@@ -7,4 +7,4 @@ class PaymentsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Payments
-        fields = '__all__'
+        fields = "__all__"
