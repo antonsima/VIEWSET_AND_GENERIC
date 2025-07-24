@@ -5,7 +5,8 @@ from materials.models import Course, Lesson
 
 
 class User(AbstractUser):
-    username = models.CharField(max_length=50)
+    username = None
+
     email = models.EmailField(unique=True)
     avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
