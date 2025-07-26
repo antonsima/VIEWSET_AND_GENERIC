@@ -18,5 +18,9 @@ urlpatterns = [
         name="login",
     ),
     path("register/", UserCreateAPIView.as_view(), name="register"),
-    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path(
+        "token/refresh/",
+        TokenRefreshView.as_view(permission_classes=(AllowAny,)),
+        name="token_refresh",
+    ),
 ] + router.urls
