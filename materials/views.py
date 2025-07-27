@@ -1,9 +1,8 @@
-from rest_framework import generics, viewsets
+from rest_framework import generics, permissions, viewsets
 
 from materials.models import Course, Lesson
 from materials.serializers import CourseSerializer, LessonSerializer
 from users.permissions import IsModer, IsOwner
-from rest_framework import permissions
 
 
 class CourseViewSet(viewsets.ModelViewSet):
@@ -16,11 +15,11 @@ class CourseViewSet(viewsets.ModelViewSet):
         course.save()
 
     def get_permissions(self):
-        if self.action == 'create':
+        if self.action == "create":
             self.permission_classes = (~IsModer,)
-        elif self.action in ['update', 'retrieve']:
+        elif self.action in ["update", "retrieve"]:
             self.permission_classes = (IsModer | IsOwner,)
-        elif self.action == 'destroy':
+        elif self.action == "destroy":
             self.permission_classes = (~IsModer | IsOwner,)
         return super().get_permissions()
 

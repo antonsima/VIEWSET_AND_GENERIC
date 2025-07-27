@@ -25,14 +25,14 @@ class Payments(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     course = models.ForeignKey(
-        'materials.Course',
+        "materials.Course",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name="payments",
     )
     lesson = models.ForeignKey(
-        'materials.Lesson',
+        "materials.Lesson",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
