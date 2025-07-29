@@ -1,11 +1,10 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from materials.models import Course, Lesson
-
 
 class User(AbstractUser):
-    username = models.CharField(max_length=50)
+    username = None
+
     email = models.EmailField(unique=True)
     avatar = models.ImageField(upload_to="avatars/", blank=True, null=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
@@ -26,14 +25,14 @@ class Payments(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     course = models.ForeignKey(
-        Course,
+        "materials.Course",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name="payments",
     )
     lesson = models.ForeignKey(
-        Lesson,
+        "materials.Lesson",
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
