@@ -14,6 +14,8 @@ pillow = "^11.3.0"
 dotenv = "^0.9.9"
 django-filter = "^25.1"
 djangorestframework-simplejwt = "^5.5.1"
+django-cors-headers = "^4.7.0"
+requests = "^2.32.4"
 
 
 [tool.poetry.group.lint.dependencies]
@@ -25,6 +27,7 @@ isort = "^6.0.1"
 [tool.poetry.group.dev.dependencies]
 ipython = "^9.4.0"
 coverage = "^7.10.1"
+drf-yasg = "^1.21.10"
 
 [build-system]
 requires = ["poetry-core"]
