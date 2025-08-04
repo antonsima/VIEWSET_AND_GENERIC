@@ -7,6 +7,7 @@ class Course(models.Model):
         upload_to="course_previews/", verbose_name="Превью курса", blank=True, null=True
     )
     description = models.TextField(verbose_name="Описание курса")
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     owner = models.ForeignKey(
         "users.User",
@@ -37,6 +38,7 @@ class Lesson(models.Model):
     course = models.ForeignKey(
         Course, on_delete=models.CASCADE, related_name="lessons", blank=True, null=True
     )
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     owner = models.ForeignKey(
         "users.User",

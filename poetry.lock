@@ -1118,6 +1118,21 @@ pure-eval = "*"
 tests = ["cython", "littleutils", "pygments", "pytest", "typeguard"]
 
 [[package]]
+name = "stripe"
+version = "12.4.0"
+description = "Python bindings for the Stripe API"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "stripe-12.4.0-py2.py3-none-any.whl", hash = "sha256:10720fcbf075a0b4e3eefb209a005c94564ac0f6166d284ff3164439f39af86c"},
+    {file = "stripe-12.4.0.tar.gz", hash = "sha256:1cd1f5b0579867923081bacf594959d1f403f218223a06dc38273beb07d01567"},
+]
+
+[package.dependencies]
+requests = {version = ">=2.20", markers = "python_version >= \"3.0\""}
+typing_extensions = {version = ">=4.5.0", markers = "python_version >= \"3.7\""}
+
+[[package]]
 name = "traitlets"
 version = "5.14.3"
 description = "Traitlets Python configuration system"
@@ -1131,6 +1146,17 @@ files = [
 [package.extras]
 docs = ["myst-parser", "pydata-sphinx-theme", "sphinx"]
 test = ["argcomplete (>=3.0.3)", "mypy (>=1.7.0)", "pre-commit", "pytest (>=7.0,<8.2)", "pytest-mock", "pytest-mypy-testing"]
+
+[[package]]
+name = "typing-extensions"
+version = "4.14.1"
+description = "Backported and Experimental Type Hints for Python 3.9+"
+optional = false
+python-versions = ">=3.9"
+files = [
+    {file = "typing_extensions-4.14.1-py3-none-any.whl", hash = "sha256:d1e1e3b58374dc93031d6eda2420a48ea44a36c2b4766a4fdeb3710755731d76"},
+    {file = "typing_extensions-4.14.1.tar.gz", hash = "sha256:38b39f4aeeab64884ce9f74c94263ef78f3c22467c8724005483154c26648d36"},
+]
 
 [[package]]
 name = "tzdata"
@@ -1185,4 +1211,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "ac0d314005e59a3946ec725f094d83362de8239b189d52698761c0dc5df7b4a6"
+content-hash = "ad5cbf36116be557d34d3f92dd7fae6c6ec8f139a75a848df75bf89577cdf28f"

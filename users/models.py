@@ -1,6 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from materials.models import Course, Lesson
+from viewset_and_generic import settings
+
 
 class User(AbstractUser):
     username = None
@@ -22,28 +25,56 @@ class User(AbstractUser):
 
 
 class Payments(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    PAYMENT_METHODS = (
+        ('cash', 'Наличные'),
+        ('card', 'Банковская карта'),
+        ('transfer', 'Перевод'),
+        ('stripe', 'Stripe'),
+    )
+
+    STATUS_CHOICES = (
+        ('pending', 'Ожидает оплаты'),
+        ('paid', 'Оплачено'),
+        ('canceled', 'Отменено'),
+        ('failed', 'Ошибка оплаты'),
+    )
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     course = models.ForeignKey(
-        "materials.Course",
+        Course,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name="payments",
     )
     lesson = models.ForeignKey(
-        "materials.Lesson",
+        Lesson,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name="payments",
     )
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    payment_method = models.CharField(max_length=50)
+    payment_method = models.CharField(
+        max_length=50,
+        choices=PAYMENT_METHODS,
+        default='card'
+    )
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending'
+    )
+    stripe_product_id = models.CharField(max_length=100, blank=True, null=True)
+    stripe_price_id = models.CharField(max_length=100, blank=True, null=True)
+    stripe_session_id = models.CharField(max_length=100, blank=True, null=True)
+    stripe_payment_url = models.URLField(max_length=500, blank=True, null=True)
 
     def __str__(self):
-        return f"Платеж {self.id} - {self.amount} рублей"
+        return f"Платеж {self.id} - {self.amount} рублей ({self.get_status_display()})"
 
     class Meta:
         verbose_name = "Платеж"
         verbose_name_plural = "Платежи"
+        ordering = ['-date']
