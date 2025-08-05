@@ -166,4 +166,4 @@ CSRF_TRUSTED_ORIGINS = [
 STRIPE_API_KEY = os.getenv("STRIPE_API_KEY")
 STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
 
-FRONTEND_URL = 'http://localhost:3000'
+FRONTEND_URL = "http://localhost:3000"

@@ -24,22 +24,24 @@ class User(AbstractUser):
         verbose_name_plural = "Пользователи"
 
 
-class Payments(models.Model):
+class Payment(models.Model):
     PAYMENT_METHODS = (
-        ('cash', 'Наличные'),
-        ('card', 'Банковская карта'),
-        ('transfer', 'Перевод'),
-        ('stripe', 'Stripe'),
+        ("cash", "Наличные"),
+        ("card", "Банковская карта"),
+        ("transfer", "Перевод"),
+        ("stripe", "Stripe"),
     )
 
     STATUS_CHOICES = (
-        ('pending', 'Ожидает оплаты'),
-        ('paid', 'Оплачено'),
-        ('canceled', 'Отменено'),
-        ('failed', 'Ошибка оплаты'),
+        ("pending", "Ожидает оплаты"),
+        ("paid", "Оплачено"),
+        ("canceled", "Отменено"),
+        ("failed", "Ошибка оплаты"),
     )
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True
+    )
     date = models.DateTimeField(auto_now_add=True)
     course = models.ForeignKey(
         Course,
@@ -55,21 +57,12 @@ class Payments(models.Model):
         blank=True,
         related_name="payments",
     )
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    amount = models.PositiveIntegerField(verbose_name="Сумма платежа")
     payment_method = models.CharField(
-        max_length=50,
-        choices=PAYMENT_METHODS,
-        default='card'
+        max_length=50, choices=PAYMENT_METHODS, default="card"
     )
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default='pending'
-    )
-    stripe_product_id = models.CharField(max_length=100, blank=True, null=True)
-    stripe_price_id = models.CharField(max_length=100, blank=True, null=True)
-    stripe_session_id = models.CharField(max_length=100, blank=True, null=True)
-    stripe_payment_url = models.URLField(max_length=500, blank=True, null=True)
+    session_id = models.CharField(max_length=100, blank=True, null=True)
+    link = models.URLField(max_length=500, blank=True, null=True)
 
     def __str__(self):
         return f"Платеж {self.id} - {self.amount} рублей ({self.get_status_display()})"
@@ -77,4 +70,4 @@ class Payments(models.Model):
     class Meta:
         verbose_name = "Платеж"
         verbose_name_plural = "Платежи"
-        ordering = ['-date']
+        ordering = ["-date"]

@@ -9,7 +9,7 @@ class VideoURLValidator:
         self.field = field
 
     def __call__(self, value):
-        reg = re.compile('\S+youtube.com\S+')
+        reg = re.compile("\S+youtube.com\S+")
         tmp_val = dict(value).get(self.field)
 
         if not bool(reg.match(tmp_val)):
