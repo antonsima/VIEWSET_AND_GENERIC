@@ -20,3 +20,9 @@ def create_stripe_session(price):
     )
 
     return session.get("id"), session.get("url")
+
+
+def create_stripe_product(name):
+    product = stripe.Product.create(name=name)
+
+    return product.get("id"), product.get("name")

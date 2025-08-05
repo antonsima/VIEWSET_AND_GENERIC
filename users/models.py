@@ -45,9 +45,7 @@ class Payment(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     course = models.ForeignKey(
         Course,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
+        on_delete=models.CASCADE,
         related_name="payments",
     )
     lesson = models.ForeignKey(
@@ -63,6 +61,8 @@ class Payment(models.Model):
     )
     session_id = models.CharField(max_length=100, blank=True, null=True)
     link = models.URLField(max_length=500, blank=True, null=True)
+    product_id = models.CharField(max_length=100, blank=True, null=True)
+    product_name = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return f"Платеж {self.id} - {self.amount} рублей ({self.get_status_display()})"
