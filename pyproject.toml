@@ -18,6 +18,9 @@ django-cors-headers = "^4.7.0"
 requests = "^2.32.4"
 stripe = "^12.4.0"
 forex-python = "^1.9.2"
+celery = "^5.5.3"
+eventlet = "^0.40.2"
+redis = "^6.3.0"
 
 
 [tool.poetry.group.lint.dependencies]
