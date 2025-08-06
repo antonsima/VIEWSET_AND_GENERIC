@@ -1,21 +1,25 @@
-from materials.models import Subscription
-from celery import shared_task
-from django.core.mail import send_mail
-from django.conf import settings
 import logging
-from django.utils import timezone
 from datetime import timedelta
 
+from celery import shared_task
+from django.conf import settings
+from django.core.mail import send_mail
+from django.utils import timezone
+
+from materials.models import Subscription
 from users.models import User
 
 logger = logging.getLogger(__name__)
 
+
 @shared_task
 def send_course_update_notification(course_id):
-    subscriptions = Subscription.objects.filter(course_id=course_id).select_related('user', 'course')
+    subscriptions = Subscription.objects.filter(course_id=course_id).select_related(
+        "user", "course"
+    )
 
     for subscription in subscriptions:
-        subject = f'Обновление курса {subscription.course.title}'
+        subject = f"Обновление курса {subscription.course.title}"
         message = f'Курс "{subscription.course.title}", на который вы подписаны, был обновлен.'
         recipient_list = [subscription.user.email]
 
@@ -27,6 +31,7 @@ def send_course_update_notification(course_id):
             fail_silently=False,
         )
 
+
 @shared_task
 def deactivate_inactive_users():
     """
@@ -36,8 +41,7 @@ def deactivate_inactive_users():
         inactive_threshold = timezone.now() - timedelta(days=30)
 
         inactive_users = User.objects.filter(
-            last_login__lt=inactive_threshold,
-            is_active=True
+            last_login__lt=inactive_threshold, is_active=True
         )
 
         count = inactive_users.update(is_active=False)

@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     "django_filters",
     "users",
     "materials",
-    'django_celery_beat',
+    "django_celery_beat",
 ]
 
 REST_FRAMEWORK = {
@@ -172,10 +172,10 @@ FRONTEND_URL = "http://localhost:3000"
 # Настройки для Celery
 
 # URL-адрес брокера сообщений
-CELERY_BROKER_URL = 'redis://localhost:6379' # Например, Redis, который по умолчанию работает на порту 6379
+CELERY_BROKER_URL = "redis://localhost:6379"  # Например, Redis, который по умолчанию работает на порту 6379
 
 # URL-адрес брокера результатов, также Redis
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
 # Часовой пояс для работы Celery
 CELERY_TIMEZONE = TIME_ZONE
