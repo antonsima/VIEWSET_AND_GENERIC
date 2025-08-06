@@ -8,6 +8,8 @@ from materials.paginators import CoursePaginator, LessonPaginator
 from materials.serializers import CourseSerializer, LessonSerializer
 from users.permissions import IsModer, IsOwner
 
+from materials.tasks import send_course_update_notification
+
 
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
@@ -18,6 +20,11 @@ class CourseViewSet(viewsets.ModelViewSet):
         course = serializer.save()
         course.owner = self.request.user
         course.save()
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        send_course_update_notification.delay(instance.id)
+        return instance
 
     def get_permissions(self):
         if self.action == "create":
