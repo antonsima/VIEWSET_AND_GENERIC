@@ -1,6 +1,10 @@
-from rest_framework import generics, permissions, viewsets
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, permissions, status, viewsets
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-from materials.models import Course, Lesson
+from materials.models import Course, Lesson, Subscription
+from materials.paginators import CoursePaginator, LessonPaginator
 from materials.serializers import CourseSerializer, LessonSerializer
 from users.permissions import IsModer, IsOwner
 
@@ -8,6 +12,7 @@ from users.permissions import IsModer, IsOwner
 class CourseViewSet(viewsets.ModelViewSet):
     serializer_class = CourseSerializer
     queryset = Course.objects.all()
+    pagination_class = CoursePaginator
 
     def perform_create(self, serializer):
         course = serializer.save()
@@ -37,6 +42,7 @@ class LessonCreateAPIView(generics.CreateAPIView):
 class LessonListAPIView(generics.ListAPIView):
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
+    pagination_class = LessonPaginator
 
 
 class LessonRetrieveAPIView(generics.RetrieveAPIView):
@@ -54,3 +60,23 @@ class LessonUpdateAPIView(generics.UpdateAPIView):
 class LessonDestroyAPIView(generics.DestroyAPIView):
     queryset = Lesson.objects.all()
     permission_classes = (permissions.IsAuthenticated, ~IsModer | IsOwner)
+
+
+class SubscriptionAPIView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        course_id = request.data.get("course_id")
+        course = get_object_or_404(Course, id=course_id)
+
+        subscription = Subscription.objects.filter(user=user, course=course)
+
+        if subscription.exists():
+            subscription.delete()
+            message = "подписка удалена"
+        else:
+            Subscription.objects.create(user=user, course=course)
+            message = "подписка добавлена"
+
+        return Response({"message": message}, status=status.HTTP_200_OK)
