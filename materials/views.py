@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from materials.models import Course, Lesson, Subscription
 from materials.paginators import CoursePaginator, LessonPaginator
 from materials.serializers import CourseSerializer, LessonSerializer
+from materials.tasks import send_course_update_notification
 from users.permissions import IsModer, IsOwner
 
 
@@ -18,6 +19,11 @@ class CourseViewSet(viewsets.ModelViewSet):
         course = serializer.save()
         course.owner = self.request.user
         course.save()
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        send_course_update_notification.delay(instance.id)
+        return instance
 
     def get_permissions(self):
         if self.action == "create":
